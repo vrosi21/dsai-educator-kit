@@ -50,7 +50,8 @@ def main(argv=None):
     slug = folder.name
     print(f"\nPacked {count} files into {target.relative_to(ROOT).as_posix()}")
     print("Nothing from source/ is in it. Hand it in on the site: Educators, your course,")
-    print("Hand in. The site takes additions only: new files and new lines.")
+    print("Hand in. If it removes or rewrites something that is on the site, the site shows")
+    print("you what first and takes it in when you confirm.")
     print("Once the site has taken it in, record that in your copy:")
     print(f'  git add -A courses/{slug}\n  git commit -m "{slug}: handed in"')
     return 0

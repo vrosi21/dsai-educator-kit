@@ -1,6 +1,6 @@
 ---
 name: update-cms
-description: Write new content for one DSAI Vault course from the raw material in its source folder. Use when asked to "update the CMS for this course", to write up a lecture, or to make cards, problems or exam prep for a course in courses/.
+description: Write or update the content of one DSAI Vault course from the raw material in its source folder. Use when asked to "update the CMS for this course", to write up a lecture, or to make cards, problems or exam prep for a course in courses/.
 ---
 
 # Update the CMS for a course
@@ -15,11 +15,12 @@ broken, then the procedure, step by step. In short:
 1. Read `docs/AUTHORING.md`, and the pages under `docs/content-types/` you need.
 2. `uv run tools/check.py --status <course>` for the list of what is not written up yet.
 3. Read the sources completely.
-4. Add files, and add lines to files, under the course's `content/` only. Never delete,
-   reword or reorder a line that is already committed: the site takes additions only.
-5. `uv run tools/check.py <course>` until the structure is valid, and
-   `git diff --stat -- courses/<course>` shows insertions only.
-6. Report: what you wrote, what you could not read, what is not from the source, what on
-   the site you think is wrong, what to check first.
+4. Write or update files under the course's `content/` only. Change what is committed
+   only on purpose: keep ids, do not tidy lines you were not asked to touch, delete
+   nothing unless asked.
+5. `uv run tools/check.py <course>` until the structure is valid, then read
+   `git diff -- courses/<course>`: every removed line must be one you meant.
+6. Report: what you wrote and changed, everything you removed or rewrote and why, what you
+   could not read, what is not from the source, what to check first.
 
 Do not commit, pack or hand in unless asked. Never push.

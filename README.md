@@ -62,8 +62,8 @@ on your computer.
    git pull
    ```
 
-   It never changes your course. The site tells you, on the Educators page and by
-   e-mail, when there is a new version.
+   It never changes your course. The site tells you when there is a new version:
+   under the bell at the top, and on the Educators page.
 2. **Let your assistant write.** Open this folder in it and tell it:
 
    ```
@@ -87,8 +87,9 @@ on your computer.
    It checks the course once more and writes `out/rl-<date>-<time>.zip`: your
    `course.yaml` and `content/`, nothing from `source/`.
 5. **Hand it in.** On the site: Educators, your course, choose that zip, **Hand in**. The
-   site checks it in full. If it passes it is live at once and appears in the list of
-   what was added to the course.
+   site checks it in full. If it passes it is live at once and becomes a step in the
+   course's history there. If it removes or rewrites anything, the site first shows you
+   what, and takes it in when you confirm.
 6. **Record it.** Your copy and the site now agree. Make that your new starting point:
 
    ```
@@ -102,22 +103,32 @@ and what `git stash` can set aside.
 
 ## What a hand-in may do
 
-**Add.** New files, and new lines anywhere in the files that are already there: a new
-lecture, more cards in a deck, another topic in `course.yaml`.
+**Add, change and remove.** The course is yours to write: a new lecture, more cards, a
+corrected answer, a deck taken apart and put together better.
 
-**Not remove, and not rewrite.** Every line the course has on the site must still be in
-your zip, in the same order. Students' progress is stored under the ids and file names
-that are live, and nobody's work should disappear because of a slip. If something that is
-live is wrong, report it on the site with **Ask or report** and it is changed for you.
+**Removing has to be meant.** A hand-in that removes or rewrites anything is first shown
+back to you on the site: which files, which lines, which ids. It is taken in when you
+tick **It may change and remove what is there** and hand it in again. That is there to
+catch a slip, such as an assistant tidying up where it should not have. Mind the ids
+above all: each card, question, formula and term has one, and what students have marked
+is stored under it. Correct an item in place and keep its id; an id that disappears takes
+their progress on it along.
 
-**Not touch what is the owner's.** In `course.yaml` the `topics` and the `description` are
-yours. Title, code, year and whether the course is open are not.
+**Nothing is lost.** The site keeps the whole course as it stood after every hand-in. On
+the Educators page each step of your course has **Download the course as it was after
+this step**; to go back to it, unpack that zip and hand it in. Your own newest hand-in
+can simply be taken back there. And your own copy has every version in git.
+
+**Not what is the owner's.** In `course.yaml` the `topics` and the `description` are
+yours. Title, code, year and whether the course is open are not, and a topic's id stays
+as it is.
 
 ## If the site says the course has changed
 
 Another educator of your course handed something in, or the owner published a change,
-after you took your copy. Your zip lacks those lines, so it is refused: taking it in
-would remove them. Put your work on top of the latest version:
+after you took your copy. Taking your zip in would undo their work, so it is refused. The
+bell at the top of the site tells you when that happens. Put your work on top of the
+latest version:
 
 ```
 git stash                                    set your work aside
@@ -128,9 +139,9 @@ uv run tools/pack.py rl                      check and pack again
 ```
 
 Usually git fits the two together by itself. Where both changed the same place it marks
-the file: both versions are in it between `<<<<<<<` and `>>>>>>>`. Keep both sets of lines
-and delete the markers, or tell your assistant: *Resolve the merge conflicts in
-courses/rl, keeping every line of both sides.* Then hand in the new zip.
+the file: both versions are in it between `<<<<<<<` and `>>>>>>>`. Decide what stays and
+delete the markers, or tell your assistant: *Resolve the merge conflicts in courses/rl.
+Keep what the site has unless my change replaces it.* Then hand in the new zip.
 
 ## The check
 

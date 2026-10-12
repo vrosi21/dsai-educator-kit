@@ -16,9 +16,9 @@ Use it the first time, and again whenever the site says the course has changed:
     uv run tools/unpack.py rl.zip    bring in the site's version
     git stash pop                    put your work back on top
 
-It refuses to run over work that is not committed (that is what `git stash` is for), and
-over a course of yours that has lines the site's version lacks, because unpacking would
-remove them. `--force` unpacks anyway. Your source/ folder is never touched.
+It refuses to run over work that is not committed (that is what `git stash` is for;
+`--force` unpacks anyway). If the site's version lacks lines that your last commit had,
+it tells you which: git still has them. Your source/ folder is never touched.
 
 Without uv: `pip install pyyaml pydantic`, then `python tools/unpack.py ...`.
 """
@@ -75,20 +75,9 @@ def main(argv=None):
             print("Set it aside first, then put it back on top of the site's version:")
             print(f"  git stash\n  uv run tools/unpack.py {options.zip}\n  git stash pop")
             return 1
-        change = handin.compare(handin.files_of(target), files)
-        if not change.ok:
-            print(f"The site's version of {slug} lacks lines that your copy has:")
-            print("".join(f"  {line}\n" for line in change.problems[:20]), end="")
-            print("If that is work you committed but have not handed in, unpacking would")
-            print("remove it. Keep it on a branch and put it on top of the site's version:")
-            _ok, base = git("log", "-1", "--format=%h", "--grep", "the site's version", "--", path)
-            print("  git branch -f my-work")
-            print(f"  git reset --hard {base.strip() or '<the commit of the last site version>'}")
-            print(f"  uv run tools/unpack.py {options.zip}")
-            print("  git merge my-work")
-            print("If the site really removed those lines and you want its version as it")
-            print("is, run this again with --force.")
-            return 1
+    # What the site's version takes away from the last commit here. Usually someone
+    # removed it on the site; it could also be work committed here and never handed in.
+    lost = handin.compare(handin.files_of(target), files).lost if target.is_dir() else []
 
     # Out go the files the site no longer has; in come the site's. Only the kinds of file
     # a course is made of: source/ and anything else of yours stays where it is.
@@ -114,6 +103,11 @@ def main(argv=None):
         else:
             print("Could not commit (is git set up? `git config user.name` and user.email).")
             print(f'Do it yourself: git commit -m "{message}" -- {path}')
+    if lost:
+        print("Note: the site's version no longer has this, which your last commit had:")
+        print("".join(f"  {line}\n" for line in lost[:15]), end="")
+        print("If someone removed it on the site, that is as it should be. If it was work")
+        print(f"you committed without handing in, git still has it: git log -p -- {path}")
     print(f"Put the lecture material in {path}/source/ . It never leaves your computer.")
     return 0
 

@@ -43,20 +43,20 @@ there: there is nothing to write from.
 1. **One course per task.** Create and edit files only in that course's `content/` folder,
    and in its `course.yaml` only as rule 5 allows. Leave every other course, `docs/`,
    `tools/` and every other file of this repository exactly as it is.
-2. **Only add.** The site takes a hand-in only if every line the course already has is
-   still there, in the same order. Add new files; add new lines to existing files, where
-   they belong (a new card inside its deck, a new row inside its section). **Never delete,
-   reword, reorder or re-indent a line that is committed**, not even to fix a typo or to
-   tidy up: one changed line and the whole hand-in is refused. Before you finish, read
-   `git diff -- courses/<course>`: it must show added lines (`+`) and no removed ones
-   (`-`). If something that is already on the site is wrong, do not change it: tell the
-   person, who reports it on the site.
+2. **Change what is there only on purpose.** The course is the educator's to write: you
+   may add, correct and remove. But nothing that is committed changes by accident. Update
+   a file in place; do not reformat, reorder, re-indent or "tidy" lines you were not asked
+   to touch, and never delete an item or a file unless the person asked for that. Before
+   you finish, read `git diff -- courses/<course>`: every removed line (`-`) must be one
+   you meant to remove. The site shows the person each line and id a hand-in takes away
+   and asks them to confirm it, so name every removal and rewrite in your report first.
 3. **`source/` is read-only and stays where it is.** The slides and papers belong to the
    lecturers. Do not copy their pages, scans or figures into `content/`; write your own
    summary in your own words. A diagram you draw yourself or a plot you generate is fine.
 4. **Ids and file names are permanent.** Every card, question, formula, term and hook has
    an `id`, and a document's file name is its address. Each student's progress is stored
-   under them. Never rename, renumber or reuse one.
+   under them. Never rename, renumber or reuse one. To improve an item, edit it in place
+   and keep its id; an id that disappears takes the students' progress on it along.
 5. **`course.yaml` is mostly not yours.** You may add `topics`, and write the
    `description`. Do not change `title`, `code`, `year`, `series`, `semester`, `status`,
    `enabled`, `has_educator`, `hue` or `order`, and never change or remove a topic's `id`.
@@ -81,8 +81,7 @@ there: there is nothing to write from.
    That guide was written for the site's own repository, so its paths and commands differ
    here. The course is in `courses/<course>/` of this kit. Where it says
    `manage.py content_status <course>`, run step 2 below. Where it says
-   `manage.py sync_content <course> --check`, run step 5 below. Where it says to update a
-   file in place, rule 2 above comes first: here you only add. Loading into the site and
+   `manage.py sync_content <course> --check`, run step 5 below. Loading into the site and
    `publish` are not part of your work.
 
 2. **See what exists and what is missing.**
@@ -95,8 +94,9 @@ there: there is nothing to write from.
    write from a skim, a table of contents or a file name. If you cannot read a file (a
    scan without text, a format you cannot open), say so in the report; do not guess its
    contents.
-4. **Write the files** under `content/`. Add a topic to `course.yaml` before the first
-   file refers to it. Name the source files a document was written from in its `sources:`
+4. **Write or update the files** under `content/`. Update in place; leave alone what
+   you were not asked to change. Add a topic to `course.yaml` before the first file
+   refers to it. Name the source files a document was written from in its `sources:`
    field: that is how step 2 knows the material is covered.
 
    For one lecture this usually means its notes (`content/lectures/NN-name.md`), a deck of
@@ -111,11 +111,12 @@ there: there is nothing to write from.
    ```
    Every problem the check finds is reported as `file:line  field`, a message, and usually
    a `->` line saying how to fix it. Fix and re-run until it says the structure is valid.
-   The diff must show insertions only.
-6. **Report** to the person, in this order: the files you created and the files you added
-   to; what in `source/` you could not read; anything you wrote that is not in the source;
-   anything already on the site that you think is wrong (you did not change it); and what
-   they should look at first when they check your work.
+   Then read the diff itself for removed lines: each must be one you meant.
+6. **Report** to the person, in this order: the files you created and the files you
+   changed; **everything you removed or rewrote, and why**; what in `source/` you could
+   not read; anything you wrote that is not in the source; anything already there that
+   you think is wrong but were not asked to change; and what they should look at first
+   when they check your work.
 
 Without `uv`: `pip install pyyaml pydantic` once, then `python tools/check.py ...`.
 
@@ -135,8 +136,8 @@ exact there:
   backslash in it is an error: `"\theta"` is a TAB followed by `heta`.
 
 The site checks those when the person hands in. If it refuses, it shows them a report in
-the same `file:line` form; they give it to you, you fix what it names (by adding or by
-correcting lines that are not committed yet), and they pack again.
+the same `file:line` form; they give it to you, you fix what it names, and they pack
+again.
 
 ## Handing it in (only when asked)
 
@@ -146,9 +147,11 @@ uv run tools/pack.py rl
 
 It runs the check again and, if the course is valid, writes `out/rl-<date>-<time>.zip`:
 the course's `course.yaml` and its `content/`, and nothing from `source/`. Tell the person
-where the file is. Uploading it on the site's Educators page is theirs to do. When the
-site has taken it in, they record it: `git add -A courses/rl` and
-`git commit -m "rl: handed in"`. Do that for them only if they ask.
+where the file is, and what in it removes or rewrites something that is on the site.
+Uploading it on the site's Educators page is theirs to do; if it takes anything away, the
+site shows them what and they confirm with a tick. When the site has taken it in, they
+record it: `git add -A courses/rl` and `git commit -m "rl: handed in"`. Do that for them
+only if they ask.
 
 ## The course changed on the site (only when asked)
 
@@ -164,11 +167,13 @@ git stash pop
 
 `git stash` sets the uncommitted work aside, `unpack.py` brings in and commits the site's
 version, `git stash pop` puts the work back on top. If git reports conflicts, open each
-marked file: between `<<<<<<<` and `>>>>>>>` are the two versions. **Keep every line of
-both**, the site's lines first, and delete the three marker lines. Never drop a line of
-the site's side: that would be a removal, and the hand-in would be refused again. Then
-run the check, read `git diff -- courses/rl` (additions only), and say what you merged.
+marked file: between `<<<<<<<` and `>>>>>>>` are the two versions. Where they are
+different things (two new cards, say), keep both, the site's first. Where they are two
+versions of the same thing, keep the site's unless the person's change was meant to
+replace it; if you cannot tell, keep both and say so. Never drop what someone else added
+just to make the conflict go away. Delete the marker lines, run the check, read
+`git diff -- courses/rl`, and tell the person what you merged and what you chose.
 
-If `unpack.py` refuses because the course has commits the site does not know, it prints
-the four commands that keep that work on a branch and merge it back. Run those instead,
-and resolve conflicts the same way.
+`unpack.py` says so when the site's version no longer has lines that the last commit
+had: someone removed them on the site, which is fine, or work was committed here without
+being handed in, which is then still in git's history. Pass that note on to the person.
