@@ -52,7 +52,7 @@ def main(argv=None):
     print("Nothing from source/ is in it. Hand it in on the site: Educators, your course,")
     print("Hand in. If it removes or rewrites something that is on the site, the site shows")
     print("you what first and takes it in when you confirm.")
-    print("Once the site has taken it in, record that in your copy:")
+    print("Once the site has taken it in, note that in your own copy (this uploads nothing):")
     print(f'  git add -A courses/{slug}\n  git commit -m "{slug}: handed in"')
     return 0
 

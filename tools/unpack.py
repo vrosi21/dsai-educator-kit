@@ -99,7 +99,7 @@ def main(argv=None):
         message = f"{slug}: the site's version of {date.today():%d %B %Y}"
         ok, _out = git("commit", "-m", message, "--", path)
         if ok:
-            print(f'Committed in your copy: "{message}"')
+            print(f'Committed in your copy (on this computer only): "{message}"')
         else:
             print("Could not commit (is git set up? `git config user.name` and user.email).")
             print(f'Do it yourself: git commit -m "{message}" -- {path}')

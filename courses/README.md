@@ -15,5 +15,6 @@ courses/
     source/         you add this: slides, labs, homework, past papers. Ignored by git.
 ```
 
-Git keeps track of your course in your copy of the kit, on your computer only. The
-repository you cloned never has a course in it, and nothing here is ever pushed.
+Git keeps track of your course in your copy of the kit, on your computer only: its
+commits are bookmarks there, not uploads. The repository you cloned never has a course in
+it, and nothing here is ever pushed. The course reaches the site as the zip you hand in.

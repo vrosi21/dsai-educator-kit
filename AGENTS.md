@@ -30,8 +30,10 @@ out/                  the zip files pack.py makes. Ignored by git.
 
 The repository this was cloned from carries no course. The course was downloaded from the
 site and unpacked here with `tools/unpack.py`, which committed it: **in this folder a
-commit is a version of the course that the site has.** Everything written since is
-uncommitted, so `git diff -- courses/rl` is exactly the work that has not been handed in.
+commit is a bookmark for a version of the course that the site has.** Commits here are
+local. Nothing is ever pushed: the course reaches the site only as the zip the person
+hands in. Everything written since the last commit is uncommitted, so
+`git diff -- courses/rl` is exactly the work that has not been handed in.
 
 If `courses/` has no folder for the course, stop and ask the person to download their
 course's files from the site (the Educators page) and run `uv run tools/unpack.py` on the

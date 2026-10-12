@@ -24,6 +24,20 @@ VERSION, CHANGELOG.md   which version of the kit this is, and what changed
 In the examples the course is `rl`. Use your own course's short name, the one in its
 address on the site.
 
+## Git here is local: a commit is not an upload
+
+Below you will meet `git commit` and `git stash`. **Neither sends anything anywhere.** A
+commit is git remembering a version inside your own copy of the kit, on your computer.
+Uploading would be `git push`, which you switch off in the first step of the set-up, and
+which this repository would refuse anyway: only its owner can write to it.
+
+Your course reaches the site in exactly one way: the zip you hand in there.
+
+So why use git at all? Because it does two jobs well. `git diff` shows precisely what
+you, or your assistant, changed. And when someone else has changed your course in the
+meantime, git can put your work on top of theirs. Both need git to know your course,
+which is all that committing it means here.
+
 ## Once: set up
 
 You need [git](https://git-scm.com/downloads), [uv](https://docs.astral.sh/uv/) (it runs
@@ -48,8 +62,9 @@ on your computer.
    uv run tools/unpack.py ~/Downloads/rl.zip
    ```
 
-   The course is now in `courses/rl/`, and that state is committed in your copy. That
-   commit is your starting point: from here on `git diff` shows exactly what you added.
+   The course is now in `courses/rl/`, and the tool has committed that state in your
+   copy: a bookmark on your computer, uploaded nowhere. It is your starting point: from
+   here on `git diff` shows exactly what you changed.
 4. **Add the material.** Put the lecture slides, labs, homework and past papers into
    `courses/rl/source/` (`lectures/`, `labs/`, `homework/`, `exams/`). Git ignores that
    folder and the tools never pack it. It belongs to the lecturers and stays with you.
@@ -90,16 +105,22 @@ on your computer.
    site checks it in full. If it passes it is live at once and becomes a step in the
    course's history there. If it removes or rewrites anything, the site first shows you
    what, and takes it in when you confirm.
-6. **Record it.** Your copy and the site now agree. Make that your new starting point:
+6. **Note it down, on your computer.** Your copy and the site now agree. Tell git that
+   this is your new starting point:
 
    ```
    git add -A courses/rl
    git commit -m "rl: handed in"
    ```
 
-So the rule for git in this folder is simple: **a commit is a version the site has.**
-Work that is not handed in yet stays uncommitted, which is exactly what `git diff` shows
-and what `git stash` can set aside.
+   This uploads nothing; the hand-in in step 5 already did the only upload there is. It
+   is a bookmark in your own copy, so that the next `git diff` shows only what you do
+   from here on.
+
+So the rule for git in this folder is simple: **a commit is a bookmark for a version
+the site has.** `tools/unpack.py` makes one when you bring the site's version in; you
+make one after a hand-in was taken in. Work that is not handed in yet stays uncommitted,
+which is exactly what `git diff` shows and what `git stash` can set aside.
 
 ## What a hand-in may do
 
