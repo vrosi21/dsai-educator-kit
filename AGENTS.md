@@ -22,6 +22,7 @@ list in step 2 tells you what is missing.
 courses/rl/           one course, as downloaded from the site and added to here
   course.yaml         what the course is, and its list of topics
   source/             raw material: slides, labs, homework, past papers. READ ONLY.
+    2025-26/          material from an EARLIER year, in a folder named after that year
   content/            what the site shows. This is where you write.
 docs/                 the format: how content files are written. Read it, never edit it.
 tools/                unpack.py, check.py and pack.py. Never edit them.
@@ -72,6 +73,32 @@ there: there is nothing to write from.
    changed on the site", below, when asked.
 8. **Do not pack or hand in unless you are asked.** The person checks what you wrote
    against the lecture first. That check is theirs and cannot be skipped.
+9. **An earlier year stays an earlier year.** Material in a folder named after a year
+   (`source/2025-26/`) is from that year of the course, not from the one you are writing.
+   Never present it as current: see "Material from an earlier year", just below.
+
+## Material from an earlier year
+
+The course you write is one academic year: the `year` in its `course.yaml`. Material from
+another year of the same course (last year's slides, homework sheets, past papers) is
+kept apart, in a folder under `source/` named after the year it is from:
+
+```
+courses/rl/source/2025-26/
+```
+
+That folder is how you know. If the person hands you earlier material that sits loose
+among this year's, ask them to move it into such a folder first; you do not move files in
+`source/`. When you write from it:
+
+- Name it in `sources:` with its folder, like any other source: `2025-26/HW2.pdf`.
+- Say which year it is from, where the reader meets it: in the text ("from 2025-26"), in
+  a past paper's title and `date`, in a question's `source` field.
+- Never present its dates, exam format, weights, staff or coursework as this year's.
+  Where this year's material says something else, this year's is what the course says,
+  and the difference is worth a sentence.
+- Do not write this year's lecture notes from last year's slides when this year's exist.
+  If only the earlier year has a lecture, write it and say so at the top of the note.
 
 ## The procedure
 

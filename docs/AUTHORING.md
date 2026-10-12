@@ -283,6 +283,14 @@ per-type pages.
 `sources:` in a document's front matter lists the files it was written from, as paths under
 `source/` (`lectures/L05.pdf`). `content_status` uses that to tell what is still unwritten.
 
+**Material from an earlier year.** A course folder is one academic year, the `year` in its
+`course.yaml`. Material from another year of the same course is kept apart in
+`source/<year>/`, for example `source/2025-26/`, and is named with that folder in
+`sources:` (`2025-26/HW2.pdf`). Say which year it is from wherever the reader meets it
+(the text, a past paper's title and `date`, a question's `source`), and never present its
+dates, exam format, weights or staff as this year's. Where the two years differ, this
+year's material is what the course says.
+
 ## When sync reports a problem
 
 | Message contains | What happened | Fix |

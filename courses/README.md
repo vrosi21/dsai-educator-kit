@@ -13,6 +13,7 @@ courses/
     course.yaml
     content/        what the site shows: your assistant writes here
     source/         you add this: slides, labs, homework, past papers. Ignored by git.
+      2025-26/      material from an earlier year goes in a folder named after that year
 ```
 
 Git keeps track of your course in your copy of the kit, on your computer only: its
