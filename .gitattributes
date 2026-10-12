@@ -1,0 +1,10 @@
+# The same line endings on every computer, whatever its git is set to. Without this a file
+# written on Windows and one written on a Mac differ on every line, and each pull request
+# would show a whole file as changed.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary

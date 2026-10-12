@@ -1,0 +1,8 @@
+# The smallest useful exam file: a title, a kind and a scope. Everything else is optional.
+title: Final (second partial)
+kind: final
+date: 2027-01-25
+scope:
+  lectures: [2]
+format: |-
+  90 minutes, closed book. Covers the second half of the course only.

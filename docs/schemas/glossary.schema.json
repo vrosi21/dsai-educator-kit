@@ -1,0 +1,77 @@
+{
+  "$defs": {
+    "TermSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Unique in the whole course, and permanent.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "term": {
+          "description": "The word or phrase being defined.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Term",
+          "type": "string"
+        },
+        "definition": {
+          "description": "A definition you could write in an exam.",
+          "title": "Definition",
+          "type": "string"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "`id` of a topic declared in course.yaml.",
+          "title": "Topic"
+        },
+        "see": {
+          "description": "Ids of related terms.",
+          "items": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "See",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "term",
+        "definition"
+      ],
+      "title": "TermSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Definitions, one per term. Shown in alphabetical order.",
+  "properties": {
+    "terms": {
+      "items": {
+        "$ref": "#/$defs/TermSpec"
+      },
+      "minItems": 1,
+      "title": "Terms",
+      "type": "array"
+    }
+  },
+  "required": [
+    "terms"
+  ],
+  "title": "GlossaryFile",
+  "type": "object"
+}

@@ -1,0 +1,73 @@
+# A deck is one file. Card shape decides card kind:
+#   q + a        basic card
+#   q + steps    derivation, revealed one step at a time
+#   cloze        sentence with {{blanks}}
+# Always write prose and maths in block scalars (|-): backslashes stay literal there.
+title: Least squares
+topic: lsq
+lecture: 01-least-squares
+description: Loss, normal equations and when the solution is unique.
+
+cards:
+  - id: lsq-loss
+    hy: true
+    q: |-
+      Write the least-squares loss in matrix form and say what each symbol is.
+    a: |-
+      $$L(w) = \lVert y - Xw \rVert^2$$
+
+      $X$ is the $n \times d$ design matrix (one row per data point), $w$ the parameter
+      vector, $y$ the vector of targets.
+    note: |-
+      The sum form $\sum_i (y_i - \hat y_i)^2$ is the same thing. The matrix form is the
+      one that differentiates cleanly.
+
+  - id: lsq-normal
+    hy: true
+    q: |-
+      State the normal equations.
+    a: |-
+      $$X^\top X\, w = X^\top y$$
+    note: |-
+      Solve this system; do not invert $X^\top X$. With independent columns the solution is
+      $w^\star = (X^\top X)^{-1} X^\top y$.
+    hook: |-
+      Hit both sides with $X^\top$.
+
+  - id: lsq-derive
+    hy: true
+    q: |-
+      Derive the normal equations from the loss $L(w) = \lVert y - Xw \rVert^2$.
+    steps:
+      - do: |-
+          Write the norm as an inner product: $L(w) = (y - Xw)^\top (y - Xw)$.
+        why: |-
+          $\lVert v \rVert^2 = v^\top v$. This turns the loss into something you can expand.
+      - do: |-
+          Expand: $L(w) = y^\top y - 2\, w^\top X^\top y + w^\top X^\top X\, w$.
+        why: |-
+          The two cross terms are equal scalars, $y^\top X w = w^\top X^\top y$, so they merge.
+      - do: |-
+          Differentiate: $\nabla L(w) = -2 X^\top y + 2 X^\top X\, w$.
+        why: |-
+          $\nabla_w (w^\top a) = a$ and $\nabla_w (w^\top A w) = 2Aw$ for symmetric $A$.
+      - do: |-
+          Set the gradient to zero: $X^\top X\, w = X^\top y$.
+        why: |-
+          $L$ is convex, so a stationary point is a global minimum.
+    a: |-
+      The result is a square $d \times d$ linear system, however many data points there are.
+
+  - id: lsq-residual
+    cloze: |-
+      A residual is the {{vertical}} gap between a data point and the fitted line:
+      {{$r_i = y_i - \hat y_i$}}.
+
+  - id: lsq-unique
+    q: |-
+      When does least squares have exactly one solution?
+    a: |-
+      When the columns of $X$ are **linearly independent**. Then $X^\top X$ is invertible.
+    note: |-
+      It fails with a duplicated feature, with a constant feature next to the intercept
+      column, or with fewer data points than parameters.

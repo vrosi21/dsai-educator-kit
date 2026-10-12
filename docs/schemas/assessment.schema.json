@@ -1,0 +1,347 @@
+{
+  "$defs": {
+    "PhaseSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "`Phase 1`, `Day 2`, `Morning of`…",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "minutes": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Roughly how long it takes.",
+          "title": "Minutes"
+        },
+        "title": {
+          "description": "What this block achieves.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "why": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Why it comes at this point.",
+          "title": "Why"
+        },
+        "tasks": {
+          "items": {
+            "$ref": "#/$defs/TaskSpec"
+          },
+          "title": "Tasks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "title"
+      ],
+      "title": "PhaseSpec",
+      "type": "object"
+    },
+    "PlanSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "intro": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "One paragraph on how the plan is built.",
+          "title": "Intro"
+        },
+        "phases": {
+          "description": "In the order to do them.",
+          "items": {
+            "$ref": "#/$defs/PhaseSpec"
+          },
+          "title": "Phases",
+          "type": "array"
+        },
+        "skip": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "What to leave out on purpose, and why.",
+          "title": "Skip"
+        }
+      },
+      "title": "PlanSpec",
+      "type": "object"
+    },
+    "PredictionSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "q": {
+          "description": "A question likely to appear.",
+          "title": "Q",
+          "type": "string"
+        },
+        "why": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The evidence: past papers, emphasis in class.",
+          "title": "Why"
+        },
+        "likelihood": {
+          "default": "medium",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "title": "Likelihood",
+          "type": "string"
+        },
+        "refs": {
+          "description": "Links to other content, e.g. `card:fisher-01`, `lecture:05-features`.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "q"
+      ],
+      "title": "PredictionSpec",
+      "type": "object"
+    },
+    "ScopeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "lectures": {
+          "description": "Lecture numbers covered. Their topics are included automatically.",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Lectures",
+          "type": "array"
+        },
+        "topics": {
+          "description": "Further topic ids covered.",
+          "items": {
+            "maxLength": 64,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Topics",
+          "type": "array"
+        }
+      },
+      "title": "ScopeSpec",
+      "type": "object"
+    },
+    "TaskSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "tag": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Short label: Cards, Practice, Read, Why first…",
+          "title": "Tag"
+        },
+        "text": {
+          "description": "What to do, concretely.",
+          "title": "Text",
+          "type": "string"
+        },
+        "links": {
+          "description": "Links to other content, e.g. `card:fisher-01`, `lecture:05-features`.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Links",
+          "type": "array"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "TaskSpec",
+      "type": "object"
+    },
+    "WeightSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "topic": {
+          "description": "A topic id.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Topic",
+          "type": "string"
+        },
+        "weight": {
+          "description": "1 = barely examined, 5 = carries the paper.",
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Weight",
+          "type": "integer"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The evidence, e.g. which question asks it.",
+          "title": "Note"
+        }
+      },
+      "required": [
+        "topic",
+        "weight"
+      ],
+      "title": "WeightSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One exam to prepare for. Its page shows every card, problem, formula and hook whose\ntopic is in scope, so list only what cannot be derived. Leave `scope` and `includes`\nempty to cover the whole course.",
+  "properties": {
+    "title": {
+      "description": "Name of the exam.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "midterm",
+        "final",
+        "comprehensive",
+        "quiz",
+        "oral",
+        "project",
+        "other"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Exam day; drives the countdown.",
+      "title": "Date"
+    },
+    "scope": {
+      "$ref": "#/$defs/ScopeSpec"
+    },
+    "includes": {
+      "description": "Other exams (folder names) whose scope this one also covers.",
+      "items": {
+        "maxLength": 64,
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Includes",
+      "type": "array"
+    },
+    "format": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Duration, structure, aids, marking.",
+      "title": "Format"
+    },
+    "weights": {
+      "description": "How much of the paper each topic carries.",
+      "items": {
+        "$ref": "#/$defs/WeightSpec"
+      },
+      "title": "Weights",
+      "type": "array"
+    },
+    "plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PlanSpec"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "predictions": {
+      "items": {
+        "$ref": "#/$defs/PredictionSpec"
+      },
+      "title": "Predictions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "kind"
+  ],
+  "title": "AssessmentFile",
+  "type": "object"
+}

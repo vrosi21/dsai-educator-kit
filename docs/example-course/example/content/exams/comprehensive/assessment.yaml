@@ -1,0 +1,10 @@
+# A comprehensive exam covers what the partial exams cover. `includes` takes their folder
+# names; this exam's scope becomes the union of theirs, so its page gathers every card,
+# problem and formula from both halves without listing anything again.
+title: Comprehensive exam
+kind: comprehensive
+date: 2027-02-10
+includes: [midterm, final]
+format: |-
+  120 minutes, closed book. The whole course in one paper, for those who did not pass both
+  partial exams.

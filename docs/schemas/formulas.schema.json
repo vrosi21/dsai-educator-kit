@@ -1,0 +1,106 @@
+{
+  "$defs": {
+    "FormulaRowSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Unique in the whole course, and permanent.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "description": "What you would call it when asked to write it down.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "formula": {
+          "description": "Usually one display equation: `$$ … $$`.",
+          "title": "Formula",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Symbols, conditions, when it applies.",
+          "title": "Note"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "formula"
+      ],
+      "title": "FormulaRowSpec",
+      "type": "object"
+    },
+    "FormulaSectionSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "description": "Heading of the group.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Topic id. Exams covering it show this section.",
+          "title": "Topic"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/FormulaRowSpec"
+          },
+          "minItems": 1,
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "title",
+        "rows"
+      ],
+      "title": "FormulaSectionSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The formula sheet: what you may have to write from memory, grouped.",
+  "properties": {
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/FormulaSectionSpec"
+      },
+      "minItems": 1,
+      "title": "Sections",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sections"
+  ],
+  "title": "FormulasFile",
+  "type": "object"
+}

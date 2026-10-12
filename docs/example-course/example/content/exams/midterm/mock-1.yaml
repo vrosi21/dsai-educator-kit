@@ -1,0 +1,62 @@
+# A mock exam. `kind: mock` opens in Sit mode: a countdown, solutions hidden until you
+# finish, choice questions marked automatically, open questions marked by you.
+title: Mock midterm 1
+kind: mock
+duration: 30
+marking:
+  negative: 0.5          # points lost for a wrong choice answer; omit for no penalty
+instructions: |-
+  Thirty minutes. A wrong answer to a choice question costs half a point, so leave it blank
+  rather than guess.
+
+questions:
+  - id: mock1-q1
+    type: mcq
+    topic: lsq
+    points: 2
+    q: |-
+      The normal equations are
+    choices:
+      - text: $X X^\top w = X y$
+      - text: $X^\top X\, w = X^\top y$
+        correct: true
+      - text: $X^\top w = y$
+      - text: $w = X^\top y$
+
+  - id: mock1-q2
+    type: tf
+    topic: lsq
+    points: 1
+    q: |-
+      With an intercept column, the residuals of a least-squares line sum to zero.
+    correct: true
+    solution: |-
+      True. $X^\top r = 0$, and the first column of $X$ is all ones.
+
+  - id: mock1-q3
+    type: multi
+    topic: lsq
+    points: 2
+    q: |-
+      Which of these are true of the least-squares loss?
+    choices:
+      - text: It is convex in $w$.
+        correct: true
+      - text: It is always zero at the minimiser.
+        why: Only when the points lie exactly on a line.
+      - text: Its gradient is linear in $w$.
+        correct: true
+
+  - id: mock1-q4
+    title: Fit and interpret
+    topic: lsq
+    points: 10
+    q: |-
+      Fit $\hat y = w_0 + w_1 x$ to $(0, 1)$, $(1, 2)$, $(2, 4)$ and predict $y$ at $x = 3$.
+    solution: |-
+      From the normal equations $w_0 = \tfrac{5}{6}$, $w_1 = \tfrac{3}{2}$
+      (see [](problems:fitting-practice#fit-p1) for the working).
+
+      $$\hat y(3) = \tfrac{5}{6} + \tfrac{9}{2} = \tfrac{16}{3} \approx 5.33$$
+    answer: |-
+      $\hat y(3) = \tfrac{16}{3}$

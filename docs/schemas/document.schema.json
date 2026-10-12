@@ -1,0 +1,103 @@
+{
+  "additionalProperties": false,
+  "description": "The front matter of a Markdown document. The text follows the closing `---`.",
+  "properties": {
+    "title": {
+      "description": "Page title. Do not repeat it as a heading in the text.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "number": {
+      "anyOf": [
+        {
+          "maximum": 999,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Lecture/lab/homework number. Defaults to the digits the file name opens with.",
+      "title": "Number"
+    },
+    "date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When it was held.",
+      "title": "Date"
+    },
+    "due": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Deadline (labs, homework).",
+      "title": "Due"
+    },
+    "topics": {
+      "description": "Topic ids this document covers.",
+      "items": {
+        "maxLength": 64,
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Topics",
+      "type": "array"
+    },
+    "summary": {
+      "default": "",
+      "description": "One or two plain sentences shown in lists.",
+      "title": "Summary",
+      "type": "string"
+    },
+    "takeaways": {
+      "description": "3-6 things to remember; shown above the text.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Takeaways",
+      "type": "array"
+    },
+    "sources": {
+      "description": "Files under source/ this was written from, e.g. `lectures/L05.pdf`.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "status": {
+      "default": "complete",
+      "description": "`draft` is shown as a label; the page is still visible.",
+      "enum": [
+        "draft",
+        "complete"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "title": "DocMeta",
+  "type": "object"
+}

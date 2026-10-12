@@ -1,0 +1,20 @@
+# The example course. It is small on purpose and uses every content type and variant once,
+# so it works as a reference for authors and as the fixture for the automated tests.
+title: "Example 101: Fitting a Line"
+code: EX101
+year: "2026-27"
+semester: 1
+status: archived
+enabled: true        # false would keep it out of sight until it is opened in the admin
+has_educator: true   # someone writes it, so its page does not ask for an educator
+hue: 200
+order: 99
+description: Least squares and gradient descent in two lectures. A worked reference for how content is written, not a real course.
+
+# Ids are permanent. Lectures, cards, questions, formulas and exams all refer to them.
+topics:
+  - id: lsq
+    title: Least squares
+  - id: gd
+    title: Gradient descent
+    short: GD

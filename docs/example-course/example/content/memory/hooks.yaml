@@ -1,0 +1,29 @@
+# Mnemonics that are not tied to one flashcard. (A hook written on a card with `hook:`
+# appears on the Memory page too; do not repeat it here.)
+#   for      what the hook brings back
+#   kind     phrase | acronym | image | story | rhyme | peg
+#   hook     the mnemonic itself
+#   explain  how it maps onto the real thing
+hooks:
+  - id: h-singular
+    for: What makes the normal equations singular
+    kind: acronym
+    topic: lsq
+    hook: |-
+      **DFC**: Duplicate, Fewer, Constant.
+    explain: |-
+      A **D**uplicated feature column, **F**ewer data points than parameters, or a
+      **C**onstant feature beside the intercept. Each makes the columns of $X$ dependent.
+    refs: ["card:lsq-unique"]
+
+  - id: h-rate
+    for: Learning rate, too large or too small
+    kind: image
+    topic: gd
+    hook: |-
+      Walking down a valley in fog: giant strides carry you up the far wall, baby steps
+      never reach the bottom before dark.
+    explain: |-
+      Giant strides are $\eta$ above $2/\lambda_{\max}(H)$ (the loss rises); baby steps are
+      a tiny $\eta$ (convergence too slow to be useful).
+    refs: ["formula:f-rate"]

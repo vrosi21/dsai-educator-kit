@@ -1,0 +1,155 @@
+{
+  "$defs": {
+    "TopicSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Permanent id, e.g. `ch5` or `bayes`.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "description": "Full name of the chapter or unit.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "short": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Shorter label for chips; defaults to title.",
+          "title": "Short"
+        }
+      },
+      "required": [
+        "id",
+        "title"
+      ],
+      "title": "TopicSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "What the course is, and its list of topics.",
+  "properties": {
+    "title": {
+      "description": "Full course name.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "code": {
+      "description": "Short code shown on the course card, e.g. `MLPR`.",
+      "maxLength": 20,
+      "minLength": 1,
+      "title": "Code",
+      "type": "string"
+    },
+    "year": {
+      "default": "",
+      "description": "Academic year in quotes, e.g. \"2026-27\".",
+      "title": "Year",
+      "type": "string"
+    },
+    "series": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Only when this folder is another year of a course that already has a folder: the name of that first folder, e.g. `mlpr`. Folders sharing a `series` are one course in different years: the dashboard opens the latest, and the course page offers every year at the top.",
+      "title": "Series"
+    },
+    "semester": {
+      "anyOf": [
+        {
+          "maximum": 12,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Which semester of the programme the course belongs to, e.g. `5`. The dashboard groups courses by it.",
+      "title": "Semester"
+    },
+    "status": {
+      "default": "active",
+      "description": "`archived` is a finished course: it is left out of Next up and of the landing page, and without a `semester` it folds away at the bottom of the dashboard.",
+      "enum": [
+        "active",
+        "archived"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "enabled": {
+      "default": true,
+      "description": "`false` keeps the course out of sight until the owner switches it on (here, or in the admin). For a course nobody has reached yet.",
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "has_educator": {
+      "default": false,
+      "description": "`true` says someone is writing this course. While it has no content its page then says the content is on its way, instead of asking for an educator.",
+      "title": "Has Educator",
+      "type": "boolean"
+    },
+    "hue": {
+      "default": 250,
+      "description": "Colour of the course, 0-359 on the hue wheel.",
+      "maximum": 359,
+      "minimum": 0,
+      "title": "Hue",
+      "type": "integer"
+    },
+    "order": {
+      "default": 0,
+      "description": "Position among courses of the same semester.",
+      "minimum": 0,
+      "title": "Order",
+      "type": "integer"
+    },
+    "description": {
+      "default": "",
+      "description": "One or two sentences shown under the title.",
+      "title": "Description",
+      "type": "string"
+    },
+    "topics": {
+      "description": "Chapters or units, in teaching order. Everything else refers to these.",
+      "items": {
+        "$ref": "#/$defs/TopicSpec"
+      },
+      "title": "Topics",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "code"
+  ],
+  "title": "CourseFile",
+  "type": "object"
+}

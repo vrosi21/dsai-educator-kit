@@ -1,0 +1,110 @@
+# A problem set. Every question type appears once:
+#   open (default)  needs a solution, steps, an answer, or a solution on every part
+#   mcq             exactly one choice with correct: true
+#   multi           one or more correct choices
+#   tf              correct: true | false
+title: Fitting practice
+instructions: |-
+  Work each problem on paper before opening the solution.
+
+questions:
+  - id: fit-p1
+    title: Normal equations with numbers
+    topic: lsq
+    points: 10
+    q: |-
+      Fit $\hat y = w_0 + w_1 x$ to the points $(0, 1)$, $(1, 2)$, $(2, 4)$.
+    parts:
+      - q: |-
+          Write down $X^\top X$ and $X^\top y$.
+        points: 3
+        solution: |-
+          Rows of $X$ are $(1,0)$, $(1,1)$, $(1,2)$, so
+
+          $$X^\top X = \begin{pmatrix} 3 & 3 \\ 3 & 5 \end{pmatrix}, \qquad X^\top y = \begin{pmatrix} 7 \\ 10 \end{pmatrix}.$$
+      - q: |-
+          Solve for $w_0$ and $w_1$.
+        points: 4
+        solution: |-
+          $3w_0 + 3w_1 = 7$ and $3w_0 + 5w_1 = 10$. Subtracting: $2w_1 = 3$, so
+          $w_1 = \tfrac{3}{2}$ and $w_0 = \tfrac{5}{6}$.
+      - q: |-
+          Compute the sum of squared residuals.
+        points: 3
+        solution: |-
+          Predictions are $\tfrac{5}{6}$, $\tfrac{7}{3}$, $\tfrac{23}{6}$, so the residuals
+          are $\tfrac{1}{6}$, $-\tfrac{1}{3}$, $\tfrac{1}{6}$ and
+
+          $$\sum_i r_i^2 = \tfrac{1}{36} + \tfrac{4}{36} + \tfrac{1}{36} = \tfrac{1}{6}.$$
+    answer: |-
+      $\hat y = \tfrac{5}{6} + \tfrac{3}{2}x$, with $\sum_i r_i^2 = \tfrac{1}{6}$.
+    source: |-
+      Same data as homework 1, exercise 1.
+
+  - id: fit-p2
+    title: One gradient step
+    topic: gd
+    points: 6
+    q: |-
+      With rows $(1,0)$, $(1,1)$, $(1,2)$, targets $(1,3,5)^\top$ and the mean squared loss,
+      take one gradient-descent step from $w = (0,0)^\top$ with $\eta = 0.1$.
+    steps:
+      - do: |-
+          $Xw - y = (-1, -3, -5)^\top$.
+        why: |-
+          All predictions are zero at $w = 0$.
+      - do: |-
+          $\nabla L = \frac{2}{3} X^\top (Xw - y) = (-6, -\tfrac{26}{3})^\top$.
+      - do: |-
+          $w \leftarrow (0,0)^\top - 0.1\,\nabla L = (0.6,\ 0.867)^\top$.
+        why: |-
+          Step against the gradient.
+    answer: |-
+      $w = (0.6,\ 0.867)^\top$
+
+  - id: fit-p3
+    type: mcq
+    title: Learning rate
+    topic: gd
+    points: 2
+    q: |-
+      Gradient descent on a least-squares loss is run with a learning rate slightly **above**
+      $2 / \lambda_{\max}(H)$. What happens?
+    choices:
+      - text: It converges, only more slowly.
+        why: Slow convergence is the symptom of a rate that is too small.
+      - text: The loss grows without bound.
+        correct: true
+        why: Each step overshoots by more than it corrects along the steepest direction.
+      - text: It stops at a local minimum.
+        why: The loss is convex; there is no other minimum to stop at.
+      - text: Nothing changes, because the bound only matters for non-convex losses.
+
+  - id: fit-p4
+    type: multi
+    title: Singular normal equations
+    topic: lsq
+    points: 3
+    q: |-
+      Which of these make $X^\top X$ singular? Select all that apply.
+    choices:
+      - text: The same feature appears in two columns.
+        correct: true
+      - text: There are fewer data points than parameters.
+        correct: true
+      - text: The targets $y$ are very noisy.
+        why: Noise changes $X^\top y$, not $X^\top X$.
+      - text: A feature is constant and there is also an intercept column.
+        correct: true
+        why: The constant column is a multiple of the column of ones.
+
+  - id: fit-p5
+    type: tf
+    topic: gd
+    points: 1
+    q: |-
+      Gradient descent on a least-squares loss can get stuck in a local minimum that is not
+      the global one.
+    correct: false
+    solution: |-
+      False. The loss is convex, so every local minimum is global.

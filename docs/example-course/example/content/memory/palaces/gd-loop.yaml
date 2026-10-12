@@ -1,0 +1,44 @@
+# A memory palace stores an ORDERED list along a route you know well. One stop per item:
+#   place   where you are on the route
+#   image   a vivid, slightly absurd scene you picture there
+#   means   what the scene stands for
+# Use it for procedures and fixed lists; flashcards are better for single facts.
+title: One gradient-descent step, on the way to class
+topic: gd
+encodes: |-
+  The four things that happen, in order, in every iteration of gradient descent.
+intro: |-
+  The route is the walk from your front door to the lecture hall. Walk it in your head and
+  stop at each place.
+
+loci:
+  - id: door
+    place: Front door
+    image: |-
+      The door is plastered with a giant sticky note showing your current guess, the
+      numbers of $w$ dripping wet ink.
+    means: |-
+      **Start from the current parameters** $w^{(t)}$.
+  - id: bus-stop
+    place: Bus stop
+    image: |-
+      Every passenger holds up a card with how late the bus is for *them*. Nobody agrees.
+    means: |-
+      **Compute the residual term** $Xw - y$: how wrong the model is for each data point.
+    refs: ["term:g-residual"]
+  - id: bridge
+    place: The bridge
+    image: |-
+      The bridge tilts under you, steeper on one side. A sign points uphill and is labelled
+      "this way is worse".
+    means: |-
+      **Compute the gradient** $\frac{2}{n} X^\top (Xw - y)$: the uphill direction.
+    refs: ["formula:f-gradient"]
+  - id: hall
+    place: Lecture hall door
+    image: |-
+      You take one measured step *backwards* down the slope before walking in, and the
+      sticky note from your front door updates itself.
+    means: |-
+      **Step against the gradient**: $w \leftarrow w - \eta\, \nabla L(w)$, then repeat.
+    refs: ["card:gd-update"]

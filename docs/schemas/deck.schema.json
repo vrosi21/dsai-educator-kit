@@ -1,0 +1,214 @@
+{
+  "$defs": {
+    "CardSpec": {
+      "additionalProperties": false,
+      "description": "One flashcard. Its shape decides its kind:\n`q` + `a` is a basic card, `q` + `steps` a derivation, `cloze` a fill-in-the-blanks card.",
+      "properties": {
+        "id": {
+          "description": "Unique in the whole course, and permanent.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "q": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The prompt.",
+          "title": "Q"
+        },
+        "a": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The answer exactly as you would write it.",
+          "title": "A"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Commentary: why, context, common traps.",
+          "title": "Note"
+        },
+        "hook": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A mnemonic for this card.",
+          "title": "Hook"
+        },
+        "steps": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/StepSpec"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Revealed one at a time.",
+          "title": "Steps"
+        },
+        "cloze": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A sentence with {{blanks}} to recall.",
+          "title": "Cloze"
+        },
+        "hy": {
+          "default": false,
+          "description": "High-yield: likely to be examined.",
+          "title": "Hy",
+          "type": "boolean"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "`id` of a topic declared in course.yaml.",
+          "title": "Topic"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "title": "CardSpec",
+      "type": "object"
+    },
+    "StepSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "do": {
+          "description": "What you write at this step.",
+          "title": "Do",
+          "type": "string"
+        },
+        "why": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Why that step is allowed.",
+          "title": "Why"
+        }
+      },
+      "required": [
+        "do"
+      ],
+      "title": "StepSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A deck of flashcards. One file is one deck.",
+  "properties": {
+    "title": {
+      "description": "Name of the deck.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "description": "One sentence shown on the decks page.",
+      "title": "Description",
+      "type": "string"
+    },
+    "topic": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Topic of every card that sets none.",
+      "title": "Topic"
+    },
+    "lecture": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "File name (without .md) of the lecture this deck drills.",
+      "title": "Lecture"
+    },
+    "cards": {
+      "description": "In the order they should be met.",
+      "items": {
+        "$ref": "#/$defs/CardSpec"
+      },
+      "minItems": 1,
+      "title": "Cards",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "cards"
+  ],
+  "title": "DeckFile",
+  "type": "object"
+}

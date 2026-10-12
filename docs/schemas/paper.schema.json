@@ -1,0 +1,396 @@
+{
+  "$defs": {
+    "ChoiceSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "description": "One answer option.",
+          "title": "Text",
+          "type": "string"
+        },
+        "correct": {
+          "default": false,
+          "description": "Set to `true` on the right option(s).",
+          "title": "Correct",
+          "type": "boolean"
+        },
+        "why": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Shown after answering.",
+          "title": "Why"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "ChoiceSpec",
+      "type": "object"
+    },
+    "MarkingSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "negative": {
+          "default": 0,
+          "description": "Points lost for a wrong mcq/multi/tf answer, e.g. 0.2.",
+          "minimum": 0,
+          "title": "Negative",
+          "type": "number"
+        }
+      },
+      "title": "MarkingSpec",
+      "type": "object"
+    },
+    "PartSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "q": {
+          "description": "The sub-question.",
+          "title": "Q",
+          "type": "string"
+        },
+        "solution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Worked solution of this part.",
+          "title": "Solution"
+        },
+        "points": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Points"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Defaults to (a), (b), (c)…",
+          "title": "Label"
+        }
+      },
+      "required": [
+        "q"
+      ],
+      "title": "PartSpec",
+      "type": "object"
+    },
+    "QuestionSpec": {
+      "additionalProperties": false,
+      "description": "One question. `open` questions are worked on paper and need a solution; the other\ntypes are answered on the page and marked automatically.",
+      "properties": {
+        "id": {
+          "description": "Unique in the whole course, and permanent.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "default": "open",
+          "description": "`mcq` one right choice, `multi` several, `tf` true/false.",
+          "enum": [
+            "open",
+            "mcq",
+            "multi",
+            "tf"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Short name; defaults to `Question N`.",
+          "title": "Title"
+        },
+        "points": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Defaults to the sum of its parts.",
+          "title": "Points"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "`id` of a topic declared in course.yaml.",
+          "title": "Topic"
+        },
+        "q": {
+          "description": "The question as set.",
+          "title": "Q",
+          "type": "string"
+        },
+        "parts": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/PartSpec"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Sub-questions (a), (b)…",
+          "title": "Parts"
+        },
+        "choices": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ChoiceSpec"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "For `mcq` and `multi`.",
+          "title": "Choices"
+        },
+        "correct": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "For `tf`: is the statement true?",
+          "title": "Correct"
+        },
+        "solution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Full worked solution.",
+          "title": "Solution"
+        },
+        "steps": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/StepSpec"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Solution revealed step by step.",
+          "title": "Steps"
+        },
+        "answer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The final answer on its own.",
+          "title": "Answer"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Where it came from, or how reconstructed.",
+          "title": "Source"
+        }
+      },
+      "required": [
+        "id",
+        "q"
+      ],
+      "title": "QuestionSpec",
+      "type": "object"
+    },
+    "StepSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "do": {
+          "description": "What you write at this step.",
+          "title": "Do",
+          "type": "string"
+        },
+        "why": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Why that step is allowed.",
+          "title": "Why"
+        }
+      },
+      "required": [
+        "do"
+      ],
+      "title": "StepSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A past paper or a mock exam. It belongs to the exam whose folder it is in.",
+  "properties": {
+    "title": {
+      "description": "Name of the paper.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "kind": {
+      "description": "`past` opens worked; `mock` opens ready to sit against the clock.",
+      "enum": [
+        "past",
+        "mock"
+      ],
+      "title": "Kind",
+      "type": "string"
+    },
+    "date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "When the paper was sat.",
+      "title": "Date"
+    },
+    "duration": {
+      "anyOf": [
+        {
+          "maximum": 600,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Minutes allowed.",
+      "title": "Duration"
+    },
+    "marking": {
+      "$ref": "#/$defs/MarkingSpec"
+    },
+    "instructions": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The rubric printed on the paper.",
+      "title": "Instructions"
+    },
+    "questions": {
+      "items": {
+        "$ref": "#/$defs/QuestionSpec"
+      },
+      "minItems": 1,
+      "title": "Questions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "kind",
+    "questions"
+  ],
+  "title": "PaperFile",
+  "type": "object"
+}

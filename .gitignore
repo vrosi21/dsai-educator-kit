@@ -1,0 +1,15 @@
+# This repository carries the kit, never a course. Your course lives in courses/, and what
+# pack.py makes in out/. Both are ignored entirely, so that nothing you write is ever
+# committed or pushed, and `git pull` can never touch it. Only the note that says what
+# the folder is for is kept.
+/courses/*
+!/courses/README.md
+/out/
+
+# What tools and operating systems leave behind.
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,52 @@
+# A past paper, worked. `kind: past` opens in Study mode (solutions available);
+# it can still be sat against the clock from its page.
+title: Midterm, November 2025
+kind: past
+date: 2025-11-21
+duration: 60
+instructions: |-
+  Closed book. Answer all questions. Show your working.
+
+questions:
+  - id: mid25-q1
+    title: Derivation
+    topic: lsq
+    points: 8
+    q: |-
+      Starting from $L(w) = \lVert y - Xw \rVert^2$, derive the normal equations and state
+      the condition under which they have a unique solution.
+    solution: |-
+      $L(w) = (y - Xw)^\top (y - Xw) = y^\top y - 2 w^\top X^\top y + w^\top X^\top X w$.
+
+      Differentiating, $\nabla L(w) = -2X^\top y + 2X^\top X w$. Setting this to zero gives
+
+      $$X^\top X\, w = X^\top y .$$
+
+      The solution is unique when $X^\top X$ is invertible, which holds exactly when the
+      columns of $X$ are linearly independent.
+    source: |-
+      Reconstructed from memory after the sitting; the wording of the second half may differ.
+
+  - id: mid25-q2
+    title: A numeric fit
+    topic: lsq
+    points: 8
+    q: |-
+      Fit $\hat y = w_0 + w_1 x$ to $(0, 1)$, $(1, 3)$, $(2, 5)$ and give the residuals.
+    solution: |-
+      $X^\top X = \begin{pmatrix} 3 & 3 \\ 3 & 5 \end{pmatrix}$,
+      $X^\top y = \begin{pmatrix} 9 \\ 13 \end{pmatrix}$, so $2w_1 = 4$, $w_1 = 2$, $w_0 = 1$.
+
+      The three points lie on $\hat y = 1 + 2x$, so every residual is $0$.
+    answer: |-
+      $w = (1, 2)^\top$, residuals $(0, 0, 0)$.
+
+  - id: mid25-q3
+    title: Short answer
+    topic: lsq
+    points: 4
+    q: |-
+      Why is squared error more sensitive to outliers than absolute error?
+    answer: |-
+      A residual of size $r$ contributes $r^2$ instead of $|r|$, so one far point dominates
+      the sum and pulls the line towards itself.

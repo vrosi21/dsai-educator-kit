@@ -1,0 +1,77 @@
+# One folder per exam under content/exams/. This file describes the exam; the other YAML
+# files in the folder are its papers (past or mock).
+#
+# Only what cannot be derived is written here. The cards, problems, formulas and hooks shown
+# on the exam's page are found automatically from `scope`.
+title: Midterm
+kind: midterm            # midterm | final | comprehensive | quiz | oral | project | other
+date: 2026-11-20
+
+scope:
+  lectures: [1]          # lecture numbers; their topics are included automatically
+
+format: |-
+  **60 minutes, closed book.** Three questions: one derivation, one computation with small
+  integers, one "explain and compare". A formula sheet is **not** provided.
+
+weights:
+  - topic: lsq
+    weight: 5
+    note: |-
+      The whole paper. Both past sittings asked for the derivation and one numeric fit.
+
+plan:
+  intro: |-
+    Two short blocks. The first one is the exam; the second is insurance.
+  phases:
+    - label: Phase 1
+      minutes: 50
+      title: The derivation and one fit, until they are automatic
+      why: |-
+        Those two questions carried 70% of the marks on the last paper, and both are pure
+        procedure: there is nothing to understand on the day, only to reproduce.
+      tasks:
+        - tag: Cards
+          text: |-
+            Run the least-squares deck. Reveal the derivation one step at a time and say
+            the *why* of each step out loud.
+          links: ["deck:least-squares", "card:lsq-derive"]
+        - tag: Practice
+          text: |-
+            Problem 1 on paper, solution closed.
+          links: ["problems:fitting-practice#fit-p1"]
+    - label: Phase 2
+      minutes: 30
+      title: Sit the past paper, timed
+      why: |-
+        The only way to find out whether Phase 1 worked.
+      tasks:
+        - tag: Paper
+          text: |-
+            Closed book, 60 minutes on the clock. Mark it against the solutions afterwards;
+            every gap becomes a card to re-grade as Missed.
+          links: ["paper:midterm/past-2025?mode=sit"]
+        - tag: Then
+          text: |-
+            Finish on the weak cards only. Nothing new.
+          links: ["cards?filter=weak"]
+  skip: |-
+    Gradient descent is **not** examined until the final. Leave lecture 2 alone this week.
+
+predictions:
+  - q: |-
+      Derive the normal equations from $L(w) = \lVert y - Xw \rVert^2$.
+    why: |-
+      Asked in both past sittings, word for word.
+    likelihood: high
+    refs: ["card:lsq-derive", "lecture:01-least-squares#the-normal-equations"]
+  - q: |-
+      Fit a line to three given points and compute the residuals.
+    why: |-
+      One numeric fit appears every year; only the numbers change.
+    likelihood: high
+    refs: ["problems:fitting-practice#fit-p1"]
+  - q: |-
+      Explain when the least-squares solution is not unique.
+    likelihood: medium
+    refs: ["card:lsq-unique"]

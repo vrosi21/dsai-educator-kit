@@ -1,0 +1,32 @@
+# Definitions, one per term. Most useful for theory-heavy courses. `see` lists related ids.
+terms:
+  - id: g-residual
+    term: Residual
+    topic: lsq
+    definition: |-
+      The difference $r_i = y_i - \hat y_i$ between an observed target and the model's
+      prediction for the same input.
+    see: [g-design-matrix]
+
+  - id: g-design-matrix
+    term: Design matrix
+    topic: lsq
+    definition: |-
+      The matrix $X$ with one row per data point and one column per parameter. For a line
+      its rows are $(1, x_i)$: the column of ones carries the intercept.
+
+  - id: g-learning-rate
+    term: Learning rate
+    topic: gd
+    definition: |-
+      The step size $\eta$ in gradient descent. It scales how far each update moves along
+      the negative gradient.
+    see: [g-convex]
+
+  - id: g-convex
+    term: Convex function
+    topic: gd
+    definition: |-
+      A function whose graph lies on or below every chord. Any local minimum of a convex
+      function is a global minimum, which is why gradient descent cannot be trapped on the
+      least-squares loss.

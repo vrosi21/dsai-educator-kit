@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "LocusSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Unique within this palace.",
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "place": {
+          "description": "The stop on the route, e.g. `Front door`.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Place",
+          "type": "string"
+        },
+        "image": {
+          "description": "The vivid scene placed there.",
+          "title": "Image",
+          "type": "string"
+        },
+        "means": {
+          "description": "What the scene stands for.",
+          "title": "Means",
+          "type": "string"
+        },
+        "refs": {
+          "description": "Links to other content, e.g. `card:fisher-01`, `lecture:05-features`.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "place",
+        "image",
+        "means"
+      ],
+      "title": "LocusSpec",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A memory palace: an ordered list stored along a route the learner knows well.",
+  "properties": {
+    "title": {
+      "description": "Name of the palace.",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "topic": {
+      "anyOf": [
+        {
+          "maxLength": 64,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "`id` of a topic declared in course.yaml.",
+      "title": "Topic"
+    },
+    "encodes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "What ordered material this stores.",
+      "title": "Encodes"
+    },
+    "intro": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The route, described once.",
+      "title": "Intro"
+    },
+    "loci": {
+      "description": "The stops, in walking order.",
+      "items": {
+        "$ref": "#/$defs/LocusSpec"
+      },
+      "minItems": 2,
+      "title": "Loci",
+      "type": "array"
+    }
+  },
+  "required": [
+    "title",
+    "loci"
+  ],
+  "title": "PalaceFile",
+  "type": "object"
+}

@@ -1,0 +1,40 @@
+# The formula sheet. Each row is one thing you may have to write from memory.
+# Tag a section with a topic and it shows up on every exam whose scope includes that topic.
+sections:
+  - title: Least squares
+    topic: lsq
+    rows:
+      - id: f-loss
+        name: Loss
+        formula: |-
+          $$L(w) = \lVert y - Xw \rVert^2 = \sum_{i=1}^{n} (y_i - \hat y_i)^2$$
+        note: |-
+          $X$: design matrix, rows $(1, x_i)$. $w$: parameters. $y$: targets.
+      - id: f-normal
+        name: Normal equations
+        formula: |-
+          $$X^\top X\, w = X^\top y$$
+        note: |-
+          Unique solution when the columns of $X$ are linearly independent.
+      - id: f-residual
+        name: Residual
+        formula: |-
+          $$r_i = y_i - \hat y_i, \qquad X^\top r = 0 \ \text{at the minimiser}$$
+
+  - title: Gradient descent
+    topic: gd
+    rows:
+      - id: f-update
+        name: Update rule
+        formula: |-
+          $$w^{(t+1)} = w^{(t)} - \eta\, \nabla L\big(w^{(t)}\big)$$
+      - id: f-gradient
+        name: Gradient of the mean squared loss
+        formula: |-
+          $$\nabla L(w) = \frac{2}{n} X^\top (Xw - y)$$
+      - id: f-rate
+        name: Learning-rate bound
+        formula: |-
+          $$0 < \eta < \frac{2}{\lambda_{\max}(H)}, \qquad H = \frac{2}{n} X^\top X$$
+        note: |-
+          $\lambda_{\max}$: largest eigenvalue of the Hessian. Above the bound the loss grows.
