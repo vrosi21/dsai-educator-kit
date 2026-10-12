@@ -1,37 +1,58 @@
 # DSAI Vault educator kit
 
 Everything you need to write a course for [DSAI Vault](https://dsai3.pages.dev), the study
-site for the Data Science and AI programme: the format, the instructions your AI assistant
-follows, and two small tools. An educator is a student who writes one course for everyone
-else.
+site for the Data Science and AI programme: the instructions your AI assistant follows,
+the format of every content file, and three small tools. An educator is a student who
+writes one course for everyone else.
 
-**This repository holds no course content.** It is the same for every educator. Your
-course lives inside your copy of it, in `courses/`, a folder git ignores: nothing you
-write there is ever committed, pushed or seen by another educator, and updating the kit
-never touches it.
+**This repository holds no course.** It is the same for every educator. Your course comes
+from the site: you download its files, put them into your copy of this kit, add to them,
+and hand the result back on the site. Git keeps track of your course in your copy, on your
+computer only. Nothing you write is ever pushed here.
 
 ```
 AGENTS.md            the instructions your AI assistant follows (CLAUDE.md points to it)
 .claude/skills/      the same as a command for Claude Code: /update-cms rl
 docs/                how content is written: the guide, every field, an example course
+tools/unpack.py      puts the site's version of your course into courses/
 tools/check.py       checks your course
 tools/pack.py        packs your course into the one file you hand in
-courses/             YOUR course goes here. Ignored by git.
-out/                 the files pack.py makes. Ignored by git.
+courses/             YOUR course goes here
+VERSION, CHANGELOG.md   which version of the kit this is, and what changed
 ```
+
+In the examples the course is `rl`. Use your own course's short name, the one in its
+address on the site.
 
 ## Once: set up
 
-1. **Get the kit.** `git clone` this repository. You only ever read from it.
-2. **Get your course.** Sign in on the site, open **Educators**, and under your course
-   press **Download the course files**. Unpack the zip into `courses/`, so that you have
-   `courses/rl/course.yaml` (with your course's name in place of `rl`). A course nobody
-   has written yet is just that one file; one that already has content comes with it.
-3. **Add the material.** Put the lecture slides, labs, homework and past papers into
-   `courses/rl/source/` (`lectures/`, `labs/`, `homework/`, `exams/`). They stay on your
-   computer. They are never packed and never uploaded: they belong to the lecturers.
-4. **Install [uv](https://docs.astral.sh/uv/)**, which runs the tools and fetches what
-   they need by itself. Or, without it: `pip install pyyaml pydantic`.
+You need [git](https://git-scm.com/downloads), [uv](https://docs.astral.sh/uv/) (it runs
+the tools and fetches what they need), and an AI assistant that can read and write files
+on your computer.
+
+1. **Clone the kit**, and switch pushing off so that your course can never end up in a
+   public place by accident:
+
+   ```
+   git clone https://github.com/vrosi21/dsai-educator-kit.git
+   cd dsai-educator-kit
+   git remote set-url --push origin no-pushing
+   ```
+
+2. **Download your course.** Sign in on the site, open **Educators**, and under your course
+   press **Download the course files**. You get `rl.zip`: the course exactly as the site
+   has it. A course nobody has written yet is just its `course.yaml`.
+3. **Unpack it into the kit.**
+
+   ```
+   uv run tools/unpack.py ~/Downloads/rl.zip
+   ```
+
+   The course is now in `courses/rl/`, and that state is committed in your copy. That
+   commit is your starting point: from here on `git diff` shows exactly what you added.
+4. **Add the material.** Put the lecture slides, labs, homework and past papers into
+   `courses/rl/source/` (`lectures/`, `labs/`, `homework/`, `exams/`). Git ignores that
+   folder and the tools never pack it. It belongs to the lecturers and stays with you.
 
 ## Every time: write, check, hand in
 
@@ -41,10 +62,9 @@ out/                 the files pack.py makes. Ignored by git.
    git pull
    ```
 
-   Your `courses/` folder is not part of the repository, so this can never conflict with
-   your work or change it.
-2. **Let your assistant write.** Open this folder in an AI assistant that can read and
-   write files on your computer, and tell it:
+   It never changes your course. The site tells you, on the Educators page and by
+   e-mail, when there is a new version.
+2. **Let your assistant write.** Open this folder in it and tell it:
 
    ```
    Update the CMS for this course: rl
@@ -56,7 +76,8 @@ out/                 the files pack.py makes. Ignored by git.
    thing is the command `/update-cms rl`.
 3. **Check what it wrote.** This is your part and the reason the role exists. Read the
    notes against the slides. Work through a few cards and at least one solution by hand.
-   An assistant writes mistakes as confidently as it writes everything else.
+   `git diff` shows every line that is new. An assistant writes mistakes as confidently
+   as it writes everything else.
 4. **Pack it.**
 
    ```
@@ -65,17 +86,51 @@ out/                 the files pack.py makes. Ignored by git.
 
    It checks the course once more and writes `out/rl-<date>-<time>.zip`: your
    `course.yaml` and `content/`, nothing from `source/`.
-5. **Hand in that file** to the person who runs the site, the way they asked you to. They
-   take it in, the site checks it fully, and it goes live when they publish. If the site
-   finds something the check here could not see, you get the report back, in the same
-   `file:line` form, to give to your assistant.
+5. **Hand it in.** On the site: Educators, your course, choose that zip, **Hand in**. The
+   site checks it in full. If it passes it is live at once and appears in the list of
+   what was added to the course.
+6. **Record it.** Your copy and the site now agree. Make that your new starting point:
 
-Each hand-in is your whole course as it is now, so keep your `courses/` folder: it is the
-working copy of your course, and the next hand-in starts from it. On a new computer,
-download the course files from the site again; they are what is live.
+   ```
+   git add -A courses/rl
+   git commit -m "rl: handed in"
+   ```
 
-By hand, without an assistant, it is the same loop: read `docs/AUTHORING.md`, write the
-files, check, pack.
+So the rule for git in this folder is simple: **a commit is a version the site has.**
+Work that is not handed in yet stays uncommitted, which is exactly what `git diff` shows
+and what `git stash` can set aside.
+
+## What a hand-in may do
+
+**Add.** New files, and new lines anywhere in the files that are already there: a new
+lecture, more cards in a deck, another topic in `course.yaml`.
+
+**Not remove, and not rewrite.** Every line the course has on the site must still be in
+your zip, in the same order. Students' progress is stored under the ids and file names
+that are live, and nobody's work should disappear because of a slip. If something that is
+live is wrong, report it on the site with **Ask or report** and it is changed for you.
+
+**Not touch what is the owner's.** In `course.yaml` the `topics` and the `description` are
+yours. Title, code, year and whether the course is open are not.
+
+## If the site says the course has changed
+
+Another educator of your course handed something in, or the owner published a change,
+after you took your copy. Your zip lacks those lines, so it is refused: taking it in
+would remove them. Put your work on top of the latest version:
+
+```
+git stash                                    set your work aside
+                                             (download the course files again, on the site)
+uv run tools/unpack.py ~/Downloads/rl.zip    bring in the site's version
+git stash pop                                put your work back on top
+uv run tools/pack.py rl                      check and pack again
+```
+
+Usually git fits the two together by itself. Where both changed the same place it marks
+the file: both versions are in it between `<<<<<<<` and `>>>>>>>`. Keep both sets of lines
+and delete the markers, or tell your assistant: *Resolve the merge conflicts in
+courses/rl, keeping every line of both sides.* Then hand in the new zip.
 
 ## The check
 
@@ -86,23 +141,19 @@ uv run tools/check.py --status rl
 
 The first checks the structure of your files with the site's own code. The second also
 lists what in `source/` has not been written up yet. Links between files and maths are
-checked by the site itself when your hand-in is taken in.
+checked by the site itself when you hand in; if it finds something, it shows you the
+report, in the same `file:line` form, to give to your assistant.
 
-## What you may change
-
-Everything under your course's `content/`, and in its `course.yaml` the `topics` and the
-`description`. The rest of `course.yaml` (title, code, year, whether the course is open)
-belongs to the person who runs the site; a hand-in that changes it is refused. Ids and
-file names are permanent once they are live: students' progress is stored under them.
+Without uv: `pip install pyyaml pydantic`, then `python tools/check.py rl`.
 
 ## What never leaves your computer
 
 - Anything under a `source/` folder.
 - Scans, photos or copies of slides, handouts and papers, also inside `content/`. Write
   your own summary; draw your own figure.
-
-Do not commit or push in this repository, and never force-add (`git add -f`) anything
-under `courses/` or `out/`.
+- Your copy of this kit with your course in it. Do not push it anywhere public and do
+  not fork this repository publicly with a course inside. If you want a backup, use a
+  private repository of your own.
 
 ## Whose it is
 

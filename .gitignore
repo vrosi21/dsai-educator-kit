@@ -1,9 +1,8 @@
-# This repository carries the kit, never a course. Your course lives in courses/, and what
-# pack.py makes in out/. Both are ignored entirely, so that nothing you write is ever
-# committed or pushed, and `git pull` can never touch it. Only the note that says what
-# the folder is for is kept.
-/courses/*
-!/courses/README.md
+# Raw course material (slides, labs, homework, past papers) belongs to the lecturers. It
+# stays on your computer: it is never committed, never packed, never uploaded.
+/courses/*/source/
+
+# The zips that tools/pack.py makes.
 /out/
 
 # What tools and operating systems leave behind.

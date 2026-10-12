@@ -8,7 +8,8 @@
 
 Runs the check first and refuses to pack a course that has errors. Then writes
 `out/rl-<date>-<time>.zip` with the course's course.yaml and everything the site reads
-under content/. Raw material (source/) is never packed.
+under content/. Raw material (source/) is never packed. Upload the file on the site's
+Educators page.
 
 Without uv: `pip install pyyaml pydantic`, then `python tools/pack.py rl`.
 """
@@ -46,8 +47,12 @@ def main(argv=None):
     target = OUT / f"{folder.name}-{datetime.now():%Y%m%d-%H%M}.zip"
     target.write_bytes(handin.pack(folder))
     count = sum(1 for _ in handin.course_files(folder))
+    slug = folder.name
     print(f"\nPacked {count} files into {target.relative_to(ROOT).as_posix()}")
-    print("Hand that file in. Nothing from source/ is in it.")
+    print("Nothing from source/ is in it. Hand it in on the site: Educators, your course,")
+    print("Hand in. The site takes additions only: new files and new lines.")
+    print("Once the site has taken it in, record that in your copy:")
+    print(f'  git add -A courses/{slug}\n  git commit -m "{slug}: handed in"')
     return 0
 
 
