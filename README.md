@@ -13,6 +13,14 @@ to copy.
 from the site: you download it, work on it in this folder on your own computer, and hand
 the result back on the site.
 
+**You can also change your course on the site itself.** On any page of your course press
+**Edit**: every kind of content has a form there, with a preview, and you can add an image
+or look at what was changed before. Use whichever suits the job. The site is quicker for a
+correction, a few cards or a picture; this kit is for writing up a lecture with your
+assistant. Both change the same course, so after anything was changed on the site,
+download the course again before you work here (see
+[If the site says the course has changed](#if-the-site-says-the-course-has-changed)).
+
 ## The short version
 
 ```
@@ -262,8 +270,9 @@ as it is.
 
 ## If the site says the course has changed
 
-Another educator of your course handed something in, or the owner published a change,
-after you took your copy. Taking your zip in would undo their work, so it is refused. The
+Another educator of your course handed something in, the course was edited on the site
+(by anyone who writes it, you included), or the owner published a change, after you took
+your copy. Taking your zip in would undo their work, so it is refused. The
 site tells you when that happens: under the bell, and on your course's page under
 **Your copy**. Put your work on top of the latest version. Download the course files
 again on the site, then type these four lines, one after the other:

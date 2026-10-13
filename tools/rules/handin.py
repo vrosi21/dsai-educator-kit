@@ -162,6 +162,35 @@ def read(archive, info):
     return data
 
 
+def check(files, max_total=MAX_TOTAL):
+    """The rules of `inspect` and `read` for a course that is already in memory
+    ({name inside the course: bytes}), as an editor on the site makes one: only
+    course.yaml and files under content/, only the kinds of file a course is made of,
+    nothing hidden, nothing oversized, no image that carries a script."""
+    if "course.yaml" not in files:
+        raise HandInError("the course has no course.yaml")
+    total = 0
+    for name, data in files.items():
+        path = PurePosixPath(name)
+        plain = name == path.as_posix() and not path.is_absolute()
+        if not plain or "\\" in name or ":" in name or ".." in path.parts:
+            raise HandInError(f"`{name}` is not a path inside a course folder")
+        if name != "course.yaml":
+            if path.parts[0] != "content" or len(path.parts) < 2:
+                raise HandInError(f"`{name}` is neither course.yaml nor under content/")
+            if path.suffix.lower() not in SUFFIXES:
+                raise HandInError(f"`{name}` is not a kind of file a course is made of")
+            if any(part.startswith((".", "_")) for part in path.parts):
+                raise HandInError(f"`{name}` is hidden: the site would never read it")
+        if len(data) > MAX_FILE:
+            raise HandInError(f"`{name}` is larger than {MAX_FILE // 1024 // 1024} MB")
+        if name.lower().endswith(".svg") and SVG_ACTIVE.search(data):
+            raise HandInError(f"`{name}` is an image that carries a script")
+        total += len(data)
+    if len(files) > MAX_FILES or total > max_total:
+        raise HandInError("this is too large to be one course")
+
+
 def protected_changes(before, after):
     """What a handed-in course.yaml changed that is not the educator's to change.
 
@@ -393,6 +422,16 @@ def extends(old, new, name):
         return old == new
     before, after = _text(old), _text(new)
     return before is not None and after is not None and _kept(before, after)
+
+
+def series_of(course_yaml):
+    """The course a course.yaml (bytes) says it is another year of, or ""."""
+    try:
+        data = yaml.safe_load(course_yaml.decode("utf-8", errors="replace"))
+    except yaml.YAMLError:
+        return ""
+    series = data.get("series") if isinstance(data, dict) else None
+    return series if isinstance(series, str) else ""
 
 
 def topic_ids(course_yaml):

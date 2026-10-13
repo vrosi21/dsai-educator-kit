@@ -25,7 +25,7 @@ from pathlib import Path
 from .schemas import SLUG_PATTERN
 
 # Bump when rendering changes in a way that should re-import unchanged files.
-PIPELINE_VERSION = "3"
+PIPELINE_VERSION = "4"
 
 SLUG = re.compile(SLUG_PATTERN)
 YAML_SUFFIXES = {".yaml", ".yml"}

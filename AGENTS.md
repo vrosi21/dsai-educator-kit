@@ -32,7 +32,7 @@ out/                  the zip files pack.py makes. Ignored by git.
 The repository this was cloned from carries no course. The course was downloaded from the
 site and unpacked here with `tools/unpack.py`, which committed it: **in this folder a
 commit is a bookmark for a version of the course that the site has.** Commits here are
-local. Nothing is ever pushed: the course reaches the site only as the zip the person
+local. Nothing is ever pushed: from this folder the course reaches the site only as the zip the person
 hands in. Everything written since the last commit is uncommitted, so
 `git diff -- courses/rl` is exactly the work that has not been handed in.
 
@@ -76,6 +76,11 @@ there: there is nothing to write from.
 9. **An earlier year stays an earlier year.** Material in a folder named after a year
    (`source/2025-26/`) is from that year of the course, not from the one you are writing.
    Never present it as current: see "Material from an earlier year", just below.
+10. **What was made on the site stays as it is.** The person can also change the course in
+    the site's own editor. What arrives from there is part of the course like anything
+    else: files written in a plainer layout than yours, and images named by a string of
+    hex digits (`assets/3f9c2ab04d17e6a1.webp`). Do not re-lay those files out and do not
+    rename, convert or remove those images or the lines that show them (rule 2).
 
 ## Material from an earlier year
 
@@ -185,7 +190,8 @@ only if they ask.
 ## The course changed on the site (only when asked)
 
 The site refuses a hand-in built on an older version of the course than it has: someone
-else added to the course in the meantime. The person downloads the course files again
+changed the course in the meantime, with a hand-in or in the site's own editor (it may
+have been this person). The person downloads the course files again
 and asks you to bring their work on top. With the new zip at, say, `~/Downloads/rl.zip`:
 
 ```
